@@ -1,8 +1,15 @@
 import sqlite3
 import pandas
 from os import system
+from sys import platform
 
-system('clear')
+def clearscreen():
+    if platform == "linux" or platform == "linux2" or "darwin":
+        system('clear')
+    elif platform == "win32":
+        system('cls')
+
+clearscreen()
 
 def create(db):
     conn=sqlite3.connect(db)
@@ -56,7 +63,7 @@ else:
     db=op+".db"
 
 while inp!=5:
-    system('clear')
+    clearscreen()
     print("SELECT an Option")
     print("1. INSERT into table")
     print("2. Show Table")
@@ -65,41 +72,44 @@ while inp!=5:
     print("5. Exit")
 
     print("\nEnter You Choice:")
-    inp = int(input())
+    try:
+        inp = int(input())
+        if inp==1:
+            print("Enter the Item Name")
+            it = input()
+            print("Enter Quantity")
+            qty = int(input())
+            print("Enter Price")
+            prc = float(input())
+            insert(db,it,qty,prc)
 
-    if inp==1:
-        print("Enter the Item Name")
-        it = input()
-        print("Enter Quantity")
-        qty = int(input())
-        print("Enter Price")
-        prc = float(input())
-        insert(db,it,qty,prc)
+        elif inp==2:
+            print(view(db))
+            print("Press Enter To Continue")
+            wait = input()
 
-    elif inp==2:
-        print(view(db))
-        print("Press Enter To Continue")
-        wait = input()
+        elif inp==3:
+            print(view(db))
+            print("\nEnter S.No. of item to delete")
+            item = int(input())
+            delete(item)
 
-    elif inp==3:
-        print(view(db))
-        print("\nEnter S.No. of item to delete")
-        item = int(input())
-        delete(item)
+        elif inp==4:
+            print(view(db))
+            print("\nEnter S.No. of item to update")
+            item = int(input())
+            print("Enter New Quantity")
+            qty = int(input())
+            prc = float(input())
+            update(qty,prc,item)
 
-    elif inp==4:
-        print(view(db))
-        print("\nEnter S.No. of item to update")
-        item = int(input())
-        print("Enter New Quantity")
-        qty = int(input())
-        prc = float(input())
-        update(qty,prc,item)
+        elif inp==5:
+            print("Program Exited Successfully")
 
-    elif inp==5:
-        print("Program Exited Successfully")
-
-    else:
-        print("Wrong Input: %s"%inp)
-        print("Press Enter To Continue")
-        input()
+        else:
+            print("Wrong Input: %s"%inp)
+            print("Press Enter To Continue")
+            input()
+    except:
+        print("Wrong Input Recieved. Program Exiting...")
+        break
