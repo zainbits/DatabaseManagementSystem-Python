@@ -1,5 +1,6 @@
 import sqlite3
 import pandas
+import pyfiglet
 from os import system
 from sys import platform
 
@@ -64,12 +65,16 @@ else:
 
 while inp!=5:
     clearscreen()
+    covart = pyfiglet.figlet_format("StoreDB")
+    print(covart+"                                    ᵇʸ ᶻᵃᶦⁿ ˢʰᵃᶦᵏʰ")
     print("SELECT an Option")
+    print("----------------------")
     print("1. INSERT into table")
     print("2. Show Table")
     print("3. Delete Entry")
     print("4. Update Entry")
     print("5. Exit")
+    print("----------------------")
 
     print("\nEnter You Choice:")
     try:
@@ -84,15 +89,16 @@ while inp!=5:
             insert(db,it,qty,prc)
 
         elif inp==2:
+            print("-------------------------")
             print(view(db))
-            print("Press Enter To Continue")
+            print("\nPress Enter To Continue")
             wait = input()
 
         elif inp==3:
             print(view(db))
             print("\nEnter S.No. of item to delete")
             item = int(input())
-            delete(item)
+            delete(db,item)
 
         elif inp==4:
             print(view(db))
@@ -101,7 +107,7 @@ while inp!=5:
             print("Enter New Quantity")
             qty = int(input())
             prc = float(input())
-            update(qty,prc,item)
+            update(db,qty,prc,item)
 
         elif inp==5:
             print("Program Exited Successfully")
@@ -111,5 +117,5 @@ while inp!=5:
             print("Press Enter To Continue")
             input()
     except:
-        print("Wrong Input Recieved. Program Exiting...")
-        break
+        print("Wrong Input Recieved. Press Enter To Continue")
+        input()
